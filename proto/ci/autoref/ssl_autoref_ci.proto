@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 import "vision_tracked/messages_robocup_ssl_detection.proto";
 import "vision_tracked/messages_robocup_ssl_geometry.proto";
 import "state/ssl_gc_referee_message.proto";

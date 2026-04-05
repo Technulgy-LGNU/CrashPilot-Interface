@@ -1,4 +1,7 @@
 syntax = "proto2";
+
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 import "crashpilot/cp_robot/cp_cp_robot.proto";
 
 message CP_Interface {

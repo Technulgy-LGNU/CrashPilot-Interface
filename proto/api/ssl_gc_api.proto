@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 import "state/ssl_gc_state.proto";
 import "statemachine/ssl_gc_change.proto";
 import "engine/ssl_gc_engine.proto";

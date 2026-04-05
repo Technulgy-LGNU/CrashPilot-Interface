@@ -1,4 +1,7 @@
 syntax = "proto2";
+
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 import "geom/ssl_gc_geometry.proto";
 
 // From the tracked ssl vision packet, removed unnecessary fields

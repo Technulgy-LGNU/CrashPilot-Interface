@@ -1,4 +1,7 @@
 syntax = "proto2";
+
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 import "vision_tracked/messages_robocup_ssl_detection_tracked.proto";
 
 // A wrapper packet containing meta data of the source

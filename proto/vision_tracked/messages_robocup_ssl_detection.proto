@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 message SSL_DetectionBall {
   // Confidence in [0-1] of the detection
   required float  confidence = 1;

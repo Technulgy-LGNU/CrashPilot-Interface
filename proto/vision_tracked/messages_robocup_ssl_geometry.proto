@@ -1,4 +1,7 @@
 syntax = "proto2";
+
+option go_package = "github.com/technulgy-lgnu/crashpilot-interface";
+
 // A 2D float vector.
 message Vector2f {
   // X-coordinate in mm
