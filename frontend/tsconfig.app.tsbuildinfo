@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/connectionstatus.tsx","./src/components/debugpanel.tsx","./src/components/fieldcanvas.tsx","./src/components/robotpanel.tsx","./src/components/teamselector.tsx","./src/hooks/usecommandsocket.ts","./src/hooks/usevisionsocket.ts"],"version":"5.7.3"}
