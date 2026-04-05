@@ -16,6 +16,6 @@ default_source = "vision"
 [command_target]
 # Where to forward commands (the robot gateway)
 # Leave empty to only log commands
-host = ""
-port = 0
-protocol = "udp"  # "udp" or "tcp"
+host = "127.0.0.1"
+port = 4096
+protocol = "tcp"  # "udp" or "tcp"

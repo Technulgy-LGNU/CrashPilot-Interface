@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net"
 	"sync"
 
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
+	gwebscoker "github.com/gorilla/websocket"
 	"google.golang.org/protobuf/proto"
 
 	pb "github.com/technulgy-lgnu/crashpilot-interface/gen/proto"
@@ -166,24 +166,23 @@ func (wh *Handler) handleSource(c *websocket.Conn) {
 
 func (wh *Handler) forwardCommand(data []byte) {
 	addr := wh.cmdCfg.Addr()
-	protocol := wh.cmdCfg.Protocol
-	if protocol == "" {
-		protocol = "udp"
-	}
 
-	conn, err := net.Dial(protocol, addr)
+	c, _, err := gwebscoker.DefaultDialer.Dial(addr, nil)
 	if err != nil {
-		log.Printf("ws/command: forward dial error: %v", err)
+		log.Printf("ws/command: failed to connect to command target at %s: %v", addr, err)
 		return
 	}
-	defer conn.Close()
+	defer func(c *gwebscoker.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Printf("ws/command: failed to close connection to command target at %s: %v", addr, err)
+		}
+	}(c)
 
-	if _, err := conn.Write(data); err != nil {
-		log.Printf("ws/command: forward write error: %v", err)
-		return
+	err = c.WriteMessage(websocket.BinaryMessage, data)
+	if err != nil {
+		log.Printf("ws/command: failed to send command to command target at %s: %v", addr, err)
 	}
-
-	log.Printf("ws/command: forwarded %d bytes to %s://%s", len(data), protocol, addr)
 }
 
 func (wh *Handler) broadcastCommand(data []byte) {
@@ -199,7 +198,7 @@ func (wh *Handler) broadcastCommand(data []byte) {
 	}
 }
 
-// REST endpoint for source switching (non-websocket alternative)
+// RegisterREST REST endpoint for source switching (non-websocket alternative)
 func (wh *Handler) RegisterREST(app *fiber.App) {
 	app.Get("/api/source", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"source": wh.hub.GetSource()})

@@ -52,10 +52,10 @@ func (s *ServerConfig) Addr() string {
 	return fmt.Sprintf("%s:%d", s.Host, s.Port)
 }
 
-// CommandTargetAddr returns the command target address, or empty if not configured.
+// Addr CommandTargetAddr returns the command target address, or empty if not configured.
 func (c *CommandTargetConfig) Addr() string {
 	if c.Host == "" || c.Port == 0 {
 		return ""
 	}
-	return fmt.Sprintf("%s:%d", c.Host, c.Port)
+	return fmt.Sprintf("ws://%s:%d", c.Host, c.Port)
 }

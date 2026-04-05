@@ -6,7 +6,7 @@ frontend:
 	cd frontend && npm install && npm run build
 
 backend: frontend
-	go build -o bin/crashpilot-interface ./cmd/server
+	go build -o bin/crashpilot-interface ./cmd/server/main.go
 
 build: backend
 
