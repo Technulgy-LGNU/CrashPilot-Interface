@@ -7,8 +7,7 @@
 
 A web-based interface for controlling and monitoring [RoboCup SSL](https://ssl.robocup.org/) robots. Select a team and robot, visualize the field in real time, and send commands -- all from your browser.
 
-<!-- TODO: add screenshot -->
-<!-- ![CrashPilot Interface screenshot](docs/screenshot.png) -->
+![CrashPilot Interface screenshot](InterfaceImage.png)
 
 ## Features
 
@@ -52,11 +51,11 @@ A web-based interface for controlling and monitoring [RoboCup SSL](https://ssl.r
 
 ## Prerequisites
 
-| Tool | Version |
-|------|---------|
-| Go | 1.26+ |
-| Node.js | 18+ |
-| npm | (comes with Node.js) |
+| Tool    | Version              |
+|---------|----------------------|
+| Go      | 1.26+                |
+| Node.js | 18+                  |
+| npm     | (comes with Node.js) |
 
 ## Quick Start
 
@@ -100,27 +99,27 @@ protocol = "udp"
 
 ### `[server]`
 
-| Key | Default | Description |
-|-----|---------|-------------|
+| Key    | Default   | Description                                   |
+|--------|-----------|-----------------------------------------------|
 | `host` | `0.0.0.0` | Address the HTTP/WebSocket server listens on. |
-| `port` | `8080` | Port the server listens on. |
+| `port` | `8080`    | Port the server listens on.                   |
 
 ### `[vision]`
 
-| Key | Default | Description |
-|-----|---------|-------------|
-| `multicast_addr` | `224.5.23.2:10006` | SSL Vision raw multicast address and port. |
-| `multicast_iface` | `""` (default iface) | Network interface to join the multicast group on. Leave empty to use the OS default. |
-| `tracked_addr` | `224.5.23.2:10010` | SSL Vision tracked packet multicast address and port. |
-| `default_source` | `"vision"` | Initial vision source on startup: `"vision"` (raw) or `"tracked"`. Can be changed at runtime from the UI. |
+| Key               | Default              | Description                                                                                               |
+|-------------------|----------------------|-----------------------------------------------------------------------------------------------------------|
+| `multicast_addr`  | `224.5.23.2:10006`   | SSL Vision raw multicast address and port.                                                                |
+| `multicast_iface` | `""` (default iface) | Network interface to join the multicast group on. Leave empty to use the OS default.                      |
+| `tracked_addr`    | `224.5.23.2:10010`   | SSL Vision tracked packet multicast address and port.                                                     |
+| `default_source`  | `"vision"`           | Initial vision source on startup: `"vision"` (raw) or `"tracked"`. Can be changed at runtime from the UI. |
 
 ### `[command_target]`
 
-| Key | Default | Description |
-|-----|---------|-------------|
-| `host` | `""` | Hostname or IP of the robot gateway to forward commands to. Leave empty to only log commands without forwarding. |
-| `port` | `0` | Port of the robot gateway. |
-| `protocol` | `"udp"` | Transport protocol: `"udp"` or `"tcp"`. |
+| Key        | Default | Description                                                                                                      |
+|------------|---------|------------------------------------------------------------------------------------------------------------------|
+| `host`     | `""`    | Hostname or IP of the robot gateway to forward commands to. Leave empty to only log commands without forwarding. |
+| `port`     | `0`     | Port of the robot gateway.                                                                                       |
+| `protocol` | `"udp"` | Transport protocol: `"udp"` or `"tcp"`.                                                                          |
 
 ## Development
 
