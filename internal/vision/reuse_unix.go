@@ -11,9 +11,6 @@ func reusePortControl(_, _ string, c syscall.RawConn) error {
 			sockErr = err
 			return
 		}
-		if err := syscall.SetsockoptInt(int(fd), syscall.SOL_SOCKET, syscall.SO_REUSEPORT, 1); err != nil {
-			sockErr = err
-		}
 	}); err != nil {
 		return err
 	}
