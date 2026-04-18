@@ -2,7 +2,6 @@ package vision
 
 import (
 	"log"
-	"net"
 
 	"google.golang.org/protobuf/proto"
 
@@ -28,24 +27,15 @@ func NewTrackedReceiver(addr, iface string, h *hub.Hub) *TrackedReceiver {
 
 // Run starts listening for tracked packets. It blocks until an unrecoverable error occurs.
 func (r *TrackedReceiver) Run() error {
-	udpAddr, err := net.ResolveUDPAddr("udp", r.addr)
+	conn, cleanup, err := listenMulticastUDP(r.addr, r.iface)
 	if err != nil {
 		return err
 	}
-
-	var ifi *net.Interface
-	if r.iface != "" {
-		ifi, err = net.InterfaceByName(r.iface)
-		if err != nil {
-			return err
+	defer func() {
+		if err := cleanup(); err != nil {
+			log.Printf("tracked: close error: %v", err)
 		}
-	}
-
-	conn, err := net.ListenMulticastUDP("udp", ifi, udpAddr)
-	if err != nil {
-		return err
-	}
-	defer conn.Close()
+	}()
 
 	if err := conn.SetReadBuffer(maxDatagramSize * 4); err != nil {
 		log.Printf("tracked: warning: could not set read buffer: %v", err)

@@ -19,13 +19,15 @@ export default function DebugPanel({
   const stats = fieldState?.stats;
 
   const switchSource = useCallback((source: "vision" | "tracked") => {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const url = `${protocol}//${window.location.host}/ws/source`;
-    const ws = new WebSocket(url);
-    ws.onopen = () => {
-      ws.send(JSON.stringify({ source }));
-      ws.close();
-    };
+    void fetch("/api/source", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ source }),
+    }).catch((error) => {
+      console.error("Failed to switch source:", error);
+    });
   }, []);
 
   return (

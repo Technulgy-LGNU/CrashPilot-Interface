@@ -140,7 +140,9 @@ func (wh *Handler) handleSource(c *websocket.Conn) {
 	for {
 		_, msg, err := c.ReadMessage()
 		if err != nil {
-			log.Printf("ws/source: read error: %v", err)
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseNormalClosure, websocket.CloseGoingAway, websocket.CloseNoStatusReceived) {
+				log.Printf("ws/source: read error: %v", err)
+			}
 			return
 		}
 
