@@ -2,7 +2,6 @@ package vision
 
 import (
 	"log"
-	"net"
 
 	"google.golang.org/protobuf/proto"
 
@@ -30,24 +29,15 @@ func NewReceiver(addr, iface string, h *hub.Hub) *Receiver {
 
 // Run starts listening for SSL Vision packets. It blocks until an unrecoverable error occurs.
 func (r *Receiver) Run() error {
-	udpAddr, err := net.ResolveUDPAddr("udp", r.addr)
+	conn, cleanup, err := listenMulticastUDP(r.addr, r.iface)
 	if err != nil {
 		return err
 	}
-
-	var ifi *net.Interface
-	if r.iface != "" {
-		ifi, err = net.InterfaceByName(r.iface)
-		if err != nil {
-			return err
+	defer func() {
+		if err := cleanup(); err != nil {
+			log.Printf("vision: close error: %v", err)
 		}
-	}
-
-	conn, err := net.ListenMulticastUDP("udp", ifi, udpAddr)
-	if err != nil {
-		return err
-	}
-	defer conn.Close()
+	}()
 
 	if err := conn.SetReadBuffer(maxDatagramSize * 4); err != nil {
 		log.Printf("vision: warning: could not set read buffer: %v", err)
